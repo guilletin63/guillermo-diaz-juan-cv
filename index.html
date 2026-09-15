@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guillermo Díaz Juan — Cloud Security Specialist</title>
+<meta name="description" content="CV interactivo de Guillermo Díaz Juan, Cloud Security Specialist y Cloud Architect. Busca por tecnología y mira las arquitecturas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E8ECEF; --panel:#FFFFFF; --ink:#142433; --muted:#5A6B7B;
+  --rule:#C9D2D9; --signal:#1B5E8C; --mark:#B25E00; --mark-soft:#FBEFE1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.55;font-weight:400;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+a{color:var(--signal);text-decoration:none;border-bottom:1px solid rgba(27,94,140,.35)}
+a:hover{border-bottom-color:var(--signal)}
+:focus-visible{outline:2px solid var(--mark);outline-offset:2px}
+
+/* ---------- header ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .wrap{padding-top:34px;padding-bottom:28px}
+.topline{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+h1{
+  margin:0;font-size:clamp(2.1rem,5.2vw,3.4rem);font-weight:600;
+  letter-spacing:-.025em;line-height:1.02;
+}
+.headline{margin:.5rem 0 0;font-size:clamp(1rem,2.2vw,1.2rem);color:var(--muted);font-weight:500}
+.contact{margin:1.4rem 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:.88rem;color:var(--muted)}
+.langs{display:flex;gap:0;border:1px solid var(--rule);border-radius:2px;overflow:hidden;flex:none}
+.langs button{
+  font-family:inherit;font-size:.82rem;font-weight:500;letter-spacing:.04em;
+  padding:7px 14px;border:0;background:var(--panel);color:var(--muted);cursor:pointer;
+}
+.langs button+button{border-left:1px solid var(--rule)}
+.langs button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+/* ---------- hero diagram ---------- */
+.hero{background:var(--panel);border-bottom:1px solid var(--rule)}
+.hero .wrap{padding:36px 24px 40px}
+.lede{max-width:66ch;margin:0 0 30px;font-size:1.02rem}
+.lede strong{font-weight:600}
+
+/* ---------- diagram ---------- */
+.dg{margin:0}
+.dg svg{width:100%;height:auto;display:block;overflow:visible}
+.dg .cap{margin:14px 0 0;font-size:.84rem;color:var(--muted);max-width:70ch}
+.dg-title{font-size:.95rem;font-weight:600;margin:0 0 14px}
+.node rect{fill:var(--panel);stroke:var(--ink);stroke-width:1.5}
+.node .nm{font-size:15px;font-weight:600;fill:var(--ink)}
+.node .sb{font-size:12px;fill:var(--muted)}
+.node.soft rect{stroke:var(--rule);stroke-dasharray:4 4}
+.node.hit rect{stroke:var(--mark);stroke-width:2.5;fill:var(--mark-soft)}
+.node.hit .nm{fill:var(--mark)}
+.edge{fill:none;stroke:var(--signal);stroke-width:1.5}
+.edge.dash{stroke-dasharray:5 4;stroke:var(--muted)}
+.elabel{font-size:11.5px;fill:var(--muted)}
+.node rect,.node .nm{transition:fill .18s ease,stroke .18s ease}
+
+/* ---------- layout ---------- */
+.columns{display:grid;grid-template-columns:270px 1fr;gap:48px;align-items:start;padding:44px 0 72px}
+.rail{position:sticky;top:24px}
+.rail h2,.work h2{font-size:.95rem;font-weight:600;margin:0 0 12px}
+.search{position:relative}
+.search input{
+  width:100%;font-family:inherit;font-size:.92rem;padding:10px 32px 10px 12px;
+  border:1px solid var(--rule);border-radius:2px;background:var(--panel);color:var(--ink);
+}
+.search input::placeholder{color:#94A3AE}
+.search button{
+  position:absolute;right:4px;top:50%;transform:translateY(-50%);border:0;background:none;
+  cursor:pointer;color:var(--muted);font-size:1.1rem;line-height:1;padding:4px 7px;
+}
+.count{margin:10px 0 22px;font-size:.82rem;color:var(--muted)}
+.count.on{color:var(--mark)}
+.grp{margin:0 0 20px}
+.grp h3{font-size:.78rem;font-weight:600;color:var(--muted);margin:0 0 8px;letter-spacing:.01em}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{
+  font-family:var(--mono);font-size:.72rem;line-height:1;padding:5px 7px;
+  border:1px solid var(--rule);border-radius:2px;background:var(--panel);color:var(--muted);
+  cursor:pointer;transition:border-color .15s,color .15s,background .15s;
+}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--mark);border-color:var(--mark);color:#fff}
+.chip.dim{opacity:.32}
+
+/* ---------- work ---------- */
+.job{border-top:1px solid var(--rule);padding:26px 0 4px}
+.job:first-of-type{border-top:0;padding-top:0}
+.job-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap}
+.job-head h3{margin:0;font-size:1.32rem;font-weight:600;letter-spacing:-.01em}
+.job-dates{font-size:.85rem;color:var(--signal);font-weight:500;white-space:nowrap}
+.job-place{margin:.25rem 0 0;font-size:.85rem;color:var(--muted)}
+.entry{padding:22px 0 4px;border-bottom:1px dotted var(--rule)}
+.job .entry:last-of-type{border-bottom:0}
+.entry-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.sector{
+  font-size:.74rem;font-weight:600;color:var(--panel);background:var(--ink);
+  padding:3px 8px;border-radius:2px;letter-spacing:.01em;
+}
+.entry-head h4{margin:0;font-size:1.02rem;font-weight:600}
+.entry ul{margin:0;padding-left:1.05em;max-width:74ch}
+.entry li{margin:0 0 6px;font-size:.94rem}
+.entry li::marker{color:var(--signal)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:12px 0 0}
+.tag{
+  font-family:var(--mono);font-size:.71rem;line-height:1;padding:4px 6px;border-radius:2px;
+  border:1px solid var(--rule);color:var(--muted);background:var(--panel);cursor:pointer;
+}
+.tag:hover{border-color:var(--ink);color:var(--ink)}
+.tag.on{border-color:var(--mark);color:var(--mark);background:var(--mark-soft)}
+mark{background:var(--mark-soft);color:var(--mark);padding:0 1px;border-radius:2px}
+.entry.out,.job.out{display:none}
+.embed{margin:20px 0 6px;padding:18px 20px;border:1px solid var(--rule);border-radius:2px;background:var(--panel)}
+.empty{padding:40px 0;color:var(--muted);max-width:60ch}
+
+/* ---------- tail ---------- */
+.tail{border-top:1px solid var(--rule);background:var(--panel)}
+.tail .wrap{padding:38px 24px 54px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:34px}
+.tail h2{font-size:.95rem;font-weight:600;margin:0 0 10px}
+.tail p,.tail li{font-size:.9rem;margin:0 0 5px;color:var(--ink)}
+.tail ul{margin:0;padding-left:1.05em}
+.tail .yr{color:var(--muted);font-size:.85rem}
+.colophon{border-top:1px solid var(--rule);font-size:.8rem;color:var(--muted)}
+.colophon .wrap{padding:16px 24px 26px}
+
+@media (max-width:900px){
+  .columns{grid-template-columns:1fr;gap:30px;padding-top:30px}
+  .rail{position:static}
+  .chips{gap:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  .rail,.langs,.colophon{display:none}
+  body{background:#fff}
+  .columns{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="topline">
+      <div>
+        <h1>Guillermo Díaz Juan</h1>
+        <p class="headline" id="headline">Cloud Security Specialist &amp; Cloud Architect</p>
+      </div>
+      <div class="langs" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="es" aria-pressed="true">ES</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <ul class="contact" id="contact"></ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="lede" id="lede"></p>
+    <div class="dg" id="hero-diagram"></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="columns">
+    <aside class="rail">
+      <h2 id="filter-title"></h2>
+      <div class="search">
+        <label class="sr-only" for="q" id="q-label" hidden></label>
+        <input type="search" id="q" autocomplete="off" spellcheck="false">
+        <button type="button" id="clear" hidden aria-label="clear">&times;</button>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+      <div id="groups"></div>
+    </aside>
+
+    <main class="work">
+      <h2 id="work-title"></h2>
+      <div id="jobs"></div>
+      <p class="empty" id="empty" hidden></p>
+    </main>
+  </div>
+</div>
+
+<section class="tail">
+  <div class="wrap" id="tail"></div>
+</section>
+<div class="colophon"><div class="wrap"><span id="colophon"></span></div></div>
+
+<script>
+/* ============================ content ============================ */
+
+const TECHS = {
+  "AWS":"cloud","Azure":"cloud","GCP":"cloud",
+  "Prisma Cloud":"sec","Cortex":"sec","AWS Security Hub":"sec","Defender for Cloud":"sec",
+  "Security Command Center":"sec","Defender for Endpoint":"sec","HashiCorp Vault":"sec",
+  "AWS KMS":"sec","IAM":"sec","Conditional Access":"sec","Microsoft AIP":"sec","NIST":"sec",
+  "Terraform":"ops","Python":"ops","Bash":"ops","GitHub Actions":"ops","CI/CD":"ops","Git":"ops","ETL":"ops",
+  "ServiceNow":"app","Apigee":"app","REST APIs":"app","Salesforce":"app","Apex":"app","LWC":"app",
+  "MuleSoft":"app","DocuSign":"app","Java":"app","PowerBI":"app","PlantUML":"app"
+};
+
+const JOBS = [
+  {
+    org:"Freelance",
+    place:{es:"Andorra — remoto",en:"Andorra — remote"},
+    dates:{es:"01.2022 — actualidad",en:"01.2022 — present"},
+    entries:[
+      {
+        sector:{es:"Farmacéutico",en:"Pharmaceutical"},
+        title:{es:"Seguridad cloud dentro de un SOC",en:"Cloud security within a SOC"},
+        lines:{es:[
+          "Gestión de la postura de seguridad de unas 1.460 cuentas cloud repartidas entre AWS, Azure y GCP.",
+          "Liderazgo técnico del equipo de seguridad cloud: reparto del trabajo operativo y mentorización de los perfiles junior.",
+          "Integraciones a medida vía API entre el CSPM y el gestor de tickets, que abren automáticamente vulnerabilidades y malas configuraciones de severidad crítica y alta: en torno a 20 tickets al día.",
+          "Automatización del onboarding de cuentas para una región con requisitos propios, adaptando las plantillas del CSPM: unas 100 cuentas incorporadas.",
+          "Políticas de seguridad gestionadas como código, con pipelines y desarrollos en Python.",
+          "Diseño del plan de migración de la plataforma CSPM a su nueva generación e interlocución técnica con el partner.",
+          "Diseño de controles de seguridad alineados con NIST."
+        ],en:[
+          "Security posture management across roughly 1,460 cloud accounts spread over AWS, Azure and GCP.",
+          "Technical lead of the cloud security team: distribution of operational work and mentoring of junior profiles.",
+          "Custom API integrations between the CSPM platform and the ticketing system, automatically raising critical and high severity vulnerabilities and misconfigurations: around 20 tickets a day.",
+          "Automated account onboarding for a region with its own requirements, adapting the CSPM templates: around 100 accounts onboarded.",
+          "Security policies managed as code, through pipelines and Python development.",
+          "Design of the migration plan from the CSPM platform to its next generation, with direct technical liaison with the partner.",
+          "Design of security controls aligned with NIST."
+        ]},
+        tech:["AWS","Azure","GCP","Prisma Cloud","Cortex","ServiceNow","AWS Security Hub","Defender for Cloud","Python","Bash","Git","CI/CD","NIST"],
+        diagram:"policy"
+      },
+      {
+        sector:{es:"Banca",en:"Banking"},
+        title:{es:"Arquitectura de seguridad cloud",en:"Cloud security architecture"},
+        lines:{es:[
+          "Arquitecturas de referencia agnósticas, válidas tanto en cloud como en on-premise, con los elementos exigidos para considerarse seguras.",
+          "Configuración y modelo de gestión de un gestor de secretos centralizado, ofrecido como servicio transversal a cualquier equipo de desarrollo, con un alcance del orden de 200 proyectos.",
+          "Supervisión de la implementación y soporte a los equipos de desarrollo en la aplicación de los requisitos de seguridad."
+        ],en:[
+          "Provider-agnostic reference architectures, valid for both cloud and on-premise, carrying the elements required for an architecture to be considered secure.",
+          "Configuration and management model for a centralised secret manager, offered as a cross-cutting service to any development team, with a scope in the order of 200 projects.",
+          "Supervision of the implementation and support to development teams in applying security requirements."
+        ]},
+        tech:["AWS","Azure","Terraform","HashiCorp Vault","GitHub Actions","Python","Bash","AWS Security Hub","Defender for Cloud","IAM"],
+        diagram:"secrets"
+      },
+      {
+        sector:{es:"Banca",en:"Banking"},
+        title:{es:"Diseño de APIs",en:"API design"},
+        lines:{es:[
+          "Definición del comportamiento de microservicios junto al equipo funcional, investigando las dependencias de negocio.",
+          "Diagramas UML, especialmente de secuencia, como contrato de trabajo con el equipo de desarrollo."
+        ],en:[
+          "Definition of microservice behaviour together with the functional team, researching business dependencies.",
+          "UML diagrams, sequence diagrams in particular, as the working contract with the development team."
+        ]},
+        tech:["Apigee","REST APIs","PlantUML","ServiceNow"]
+      },
+      {
+        sector:{es:"Telecomunicaciones",en:"Telecommunications"},
+        title:{es:"Landing zone en arquitectura hub and spoke",en:"Hub and spoke landing zone"},
+        lines:{es:[
+          "Diseño e implementación de la landing zone para una unidad de negocio, con un alcance de entre 50 y 60 proyectos.",
+          "Configuración de los servicios de cómputo, almacenamiento y bases de datos, desplegada mediante infraestructura como código.",
+          "Documentación completa del proceso y las especificaciones en HLD y LLD."
+        ],en:[
+          "Design and implementation of the landing zone for a business unit, with a scope of 50 to 60 projects.",
+          "Configuration of compute, storage and database services, deployed through infrastructure as code.",
+          "Full documentation of the process and specifications in HLD and LLD."
+        ]},
+        tech:["GCP","Terraform","Security Command Center"],
+        diagram:"landing"
+      },
+      {
+        sector:{es:"Turismo",en:"Travel"},
+        title:{es:"Arquitectura de plataforma",en:"Platform architecture"},
+        lines:{es:[
+          "Definición e implementación de la mejor solución para los requisitos de negocio, monitorización de servicios y mejora de las arquitecturas conforme a los estándares definidos.",
+          "Apoyo a los equipos de desarrollo y DevOps aportando el criterio de seguridad en los diseños de infraestructura."
+        ],en:[
+          "Definition and implementation of the best solution for business requirements, service monitoring and improvement of architectures in line with defined standards.",
+          "Support to development and DevOps teams, bringing the security perspective into infrastructure designs."
+        ]},
+        tech:["AWS","Python","Bash","AWS Security Hub"]
+      },
+      {
+        sector:{es:"Oil and gas · Banca",en:"Oil and gas · Banking"},
+        title:{es:"Desarrollo sobre Salesforce",en:"Salesforce development"},
+        lines:{es:[
+          "Soluciones a medida con Apex, Visualforce y Lightning Web Components.",
+          "Integración con sistemas externos mediante APIs y middleware.",
+          "Automatización de la entrega y la firma de contratos integrando la plataforma de firma electrónica.",
+          "Ciclo de desarrollo completo bajo principios Agile, con despliegues controlados entre entornos."
+        ],en:[
+          "Custom solutions using Apex, Visualforce and Lightning Web Components.",
+          "Integration with external systems through APIs and middleware.",
+          "Automation of contract delivery and signature by integrating the electronic signature platform.",
+          "Full development lifecycle under Agile principles, with controlled deployments across environments."
+        ]},
+        tech:["Salesforce","Apex","LWC","MuleSoft","DocuSign","GitHub Actions","Git"]
+      }
+    ]
+  },
+  {
+    org:"Accenture",
+    place:{es:"Madrid, España",en:"Madrid, Spain"},
+    dates:{es:"09.2020 — 01.2022",en:"09.2020 — 01.2022"},
+    entries:[
+      {
+        sector:{es:"Farmacéutico",en:"Pharmaceutical"},
+        title:{es:"Despliegue de CSPM multicloud",en:"Multicloud CSPM rollout"},
+        lines:{es:[
+          "Onboarding de la herramienta CSPM en cuentas y suscripciones de los tres proveedores, revisando los permisos de la plantilla para ajustarlos a lo que el cliente necesitaba.",
+          "Comparativa entre las capacidades nativas de seguridad de AWS, Azure y GCP y las de la herramienta.",
+          "Análisis de las alertas por defecto en cada proveedor para personalizar las políticas.",
+          "Pipelines de CI/CD que auditan los cambios de políticas y de reglas personalizadas a través de la API.",
+          "Exportación de los hallazgos a un data lake y explotación en cuadros de mando.",
+          "Liderazgo del proyecto desde el onboarding hasta el desarrollo de una librería propia de consumo de la API."
+        ],en:[
+          "Onboarding of the CSPM tool across accounts and subscriptions of all three providers, reviewing template permissions to match what the client actually needed.",
+          "Comparison between the native security capabilities of AWS, Azure and GCP and those of the tool.",
+          "Analysis of the default alerts raised by each provider in order to customise policies.",
+          "CI/CD pipelines auditing policy and custom rule changes through the API.",
+          "Export of findings into a data lake and exploitation through dashboards.",
+          "Project leadership from onboarding through to an in-house library for consuming the API."
+        ]},
+        tech:["AWS","Azure","GCP","Prisma Cloud","AWS Security Hub","Defender for Cloud","Security Command Center","Python","CI/CD","PowerBI","ETL"]
+      },
+      {
+        sector:{es:"Banca",en:"Banking"},
+        title:{es:"Controles cloud e identidad",en:"Cloud controls and identity"},
+        lines:{es:[
+          "Diseño de los controles de seguridad a implementar en cada proveedor cloud y whitepaper con las capacidades más relevantes de cada uno.",
+          "Definición e implementación de reglas de acceso condicional sobre usuarios, aplicaciones y dispositivos.",
+          "Despliegue de la solución de protección de la información junto al equipo de DLP, incluyendo pruebas."
+        ],en:[
+          "Design of the security controls to implement in each cloud provider, plus a whitepaper covering the most relevant capabilities of each one.",
+          "Definition and implementation of conditional access rules across users, applications and devices.",
+          "Deployment of the information protection solution alongside the DLP team, testing included."
+        ]},
+        tech:["AWS","Azure","GCP","Conditional Access","Microsoft AIP","IAM"]
+      },
+      {
+        sector:{es:"Telecomunicaciones",en:"Telecommunications"},
+        title:{es:"Gestor de secretos a medida",en:"Custom secret manager"},
+        lines:{es:[
+          "Análisis y diseño de un gestor de secretos para certificados y API keys, supervisando a los equipos de desarrollo y la implantación de los controles de seguridad."
+        ],en:[
+          "Analysis and design of a secret manager for certificates and API keys, supervising the development teams and the rollout of the security controls."
+        ]},
+        tech:["IAM","Python","REST APIs"]
+      },
+      {
+        sector:{es:"Farmacéutico",en:"Pharmaceutical"},
+        title:{es:"Seguridad de plataformas de datos",en:"Data platform security"},
+        lines:{es:[
+          "Análisis, diseño y despliegue de la configuración de seguridad de los servicios cloud implicados en la ingesta de datos.",
+          "Apoyo en el despliegue de una solución de protección del dato y documentación de todas las soluciones."
+        ],en:[
+          "Analysis, design and deployment of the security configuration for the cloud services involved in data ingestion.",
+          "Support in the rollout of a data protection solution, and documentation of every solution delivered."
+        ]},
+        tech:["AWS","AWS KMS","AWS Security Hub","ETL"]
+      },
+      {
+        sector:{es:"Seguridad",en:"Security"},
+        title:{es:"Prueba de concepto de EDR",en:"EDR proof of concept"},
+        lines:{es:[
+          "Montaje de los laboratorios y prueba de concepto de una solución de detección y respuesta en endpoint, con presentación de resultados al cliente."
+        ],en:[
+          "Lab build and proof of concept for an endpoint detection and response solution, with results presented to the client."
+        ]},
+        tech:["Defender for Endpoint"]
+      }
+    ]
+  },
+  {
+    org:"Paradigma Digital",
+    place:{es:"Madrid, España",en:"Madrid, Spain"},
+    dates:{es:"08.2019 — 09.2020",en:"08.2019 — 09.2020"},
+    entries:[
+      {
+        sector:{es:"Oil and gas",en:"Oil and gas"},
+        title:{es:"Ingesta y explotación de datos",en:"Data ingestion and exploitation"},
+        lines:{es:[
+          "Diseño y desarrollo de la ingesta de datos sobre infraestructuras IoT y serverless, con ETLs hacia data lakes.",
+          "Exposición de esa información a otros proveedores, dentro y fuera de la plataforma cloud, mediante APIs REST.",
+          "Desarrollo y mantenimiento de librerías internas en Python."
+        ],en:[
+          "Design and development of data ingestion over IoT and serverless infrastructure, with ETLs into data lakes.",
+          "Exposure of that information to other providers, inside and outside the cloud platform, through REST APIs.",
+          "Development and maintenance of internal Python libraries."
+        ]},
+        tech:["AWS","GCP","Python","REST APIs","ETL"]
+      },
+      {
+        sector:{es:"Retail",en:"Retail"},
+        title:{es:"Solución full stack para e-commerce",en:"Full stack e-commerce solution"},
+        lines:{es:[
+          "Análisis, diseño e implementación de una solución a medida para una nueva línea de e-commerce, adaptada al ciclo de desarrollo y a los entornos del cliente.",
+          "Trabajo conjunto con el equipo de UX y con los responsables de tienda física."
+        ],en:[
+          "Analysis, design and implementation of a custom solution for a new e-commerce line, adapted to the client's development lifecycle and environments.",
+          "Close work with the UX team and with physical store managers."
+        ]},
+        tech:["Java","Python","REST APIs"]
+      }
+    ]
+  },
+  {
+    org:"Dive.tech",
+    place:{es:"Madrid, España",en:"Madrid, Spain"},
+    dates:{es:"06.2017 — 08.2019",en:"06.2017 — 08.2019"},
+    entries:[
+      {
+        sector:{es:"Producto",en:"Product"},
+        title:{es:"Backend y plataformas de datos",en:"Backend and data platforms"},
+        lines:{es:[
+          "Soluciones templatizadas para incorporar APIs REST, data lakes y ETLs en entornos de AWS y GCP.",
+          "Servidores en Java y Python para aplicaciones Android e iOS.",
+          "Bases de datos relacionales, no relacionales y de grafos, con DAOs y helpers para servir la información al front-end."
+        ],en:[
+          "Templated solutions for adding REST APIs, data lakes and ETLs in AWS and GCP environments.",
+          "Java and Python servers for Android and iOS applications.",
+          "Relational, non-relational and graph databases, with DAOs and helpers serving information to the front-end."
+        ]},
+        tech:["AWS","GCP","Java","Python","REST APIs","ETL"]
+      }
+    ]
+  }
+];
+
+/* ============================ diagrams ============================ */
+
+function box(x,y,w,h,name,sub,tech,cls){
+  const t = tech ? ' data-tech="'+tech+'"' : '';
+  const cx = x+w/2;
+  const ny = sub ? y+h/2-2 : y+h/2+5;
+  return '<g class="node '+(cls||'')+'"'+t+'>'+
+    '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="2"/>'+
+    '<text class="nm" x="'+cx+'" y="'+ny+'" text-anchor="middle">'+name+'</text>'+
+    (sub?'<text class="sb" x="'+cx+'" y="'+(y+h/2+15)+'" text-anchor="middle">'+sub+'</text>':'')+
+  '</g>';
+}
+function defs(id){
+  return '<defs><marker id="'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">'+
+    '<path d="M0 0 L10 5 L0 10 z" fill="#1B5E8C"/></marker>'+
+    '<marker id="'+id+'-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">'+
+    '<path d="M0 0 L10 5 L0 10 z" fill="#5A6B7B"/></marker></defs>';
+}
+const A = id => ' marker-end="url(#'+id+')"';
+const AD = id => ' marker-end="url(#'+id+'-d)"';
+
+const DIAGRAMS = {
+  posture:{
+    title:{es:"Postura multicloud y creación automática de tickets",
+           en:"Multicloud posture and automatic ticketing"},
+    cap:{es:"Los hallazgos de los tres proveedores se centralizan en la plataforma de CSPM. Solo las severidades crítica y alta cruzan al gestor de tickets, ya con el equipo asignado.",
+         en:"Findings from all three providers land in the CSPM platform. Only critical and high severities cross into the ticketing system, already routed to the owning team."},
+    svg:(L)=>'<svg viewBox="0 0 920 300" role="img" aria-label="'+L.alt+'">'+defs('ap')+
+      box(10,40,160,52,"AWS",L.acc1,"AWS")+
+      box(10,122,160,52,"Azure",L.acc2,"Azure")+
+      box(10,204,160,52,"GCP",L.acc3,"GCP")+
+      '<path class="edge" d="M170 66 H206 V148 H242"'+A('ap')+'/>'+
+      '<path class="edge" d="M170 148 H242"'+A('ap')+'/>'+
+      '<path class="edge" d="M170 230 H206 V148 H242"'+A('ap')+'/>'+
+      box(246,108,186,80,"Prisma Cloud","CSPM","Prisma Cloud")+
+      '<text class="elabel" x="452" y="140">'+L.filter+'</text>'+
+      '<path class="edge" d="M432 148 H486"'+A('ap')+'/>'+
+      box(490,116,166,64,L.sev,L.policies,null,"soft")+
+      '<path class="edge" d="M656 148 H706"'+A('ap')+'/>'+
+      box(710,116,200,64,"ServiceNow",L.tickets,"ServiceNow")+
+    '</svg>',
+    labels:{
+      es:{alt:"Diagrama: AWS, Azure y GCP envían hallazgos a Prisma Cloud, que abre tickets en ServiceNow",
+          acc1:"≈1.200 cuentas",acc2:"≈250 cuentas",acc3:"≈10 cuentas",
+          filter:"filtro",sev:"Crítica + alta",policies:"políticas propias",tickets:"≈20 tickets/día"},
+      en:{alt:"Diagram: AWS, Azure and GCP send findings to Prisma Cloud, which raises tickets in ServiceNow",
+          acc1:"≈1,200 accounts",acc2:"≈250 accounts",acc3:"≈10 accounts",
+          filter:"filter",sev:"Critical + high",policies:"custom policies",tickets:"≈20 tickets/day"}
+    }
+  },
+
+  policy:{
+    title:{es:"Políticas de seguridad como código",en:"Security policies as code"},
+    cap:{es:"Las políticas viven en el repositorio. El pipeline las publica contra la plataforma y devuelve la auditoría de cambios al mismo sitio, así que el estado real y el declarado no se separan.",
+         en:"Policies live in the repository. The pipeline publishes them to the platform and returns the change audit to the same place, so declared and actual state never drift apart."},
+    svg:(L)=>'<svg viewBox="0 0 900 230" role="img" aria-label="'+L.alt+'">'+defs('pp')+
+      box(10,66,160,62,"Git",L.repo,"Git")+
+      '<path class="edge" d="M170 97 H226"'+A('pp')+'/>'+
+      box(230,66,180,62,"CI/CD",L.pipe,"CI/CD")+
+      '<path class="edge" d="M410 97 H466"'+A('pp')+'/>'+
+      box(470,66,190,62,"Prisma Cloud",L.pol,"Prisma Cloud")+
+      '<path class="edge" d="M660 97 H716"'+A('pp')+'/>'+
+      box(720,66,170,62,L.accounts,"AWS · Azure · GCP",null,"soft")+
+      '<path class="edge dash" d="M565 128 V182 H90 V132"'+AD('pp')+'/>'+
+      '<text class="elabel" x="300" y="200" text-anchor="middle">'+L.audit+'</text>'+
+    '</svg>',
+    labels:{
+      es:{alt:"Diagrama: del repositorio Git a un pipeline, de ahí a las políticas del CSPM y a las cuentas cloud",
+          repo:"políticas versionadas",pipe:"Python",pol:"reglas personalizadas",accounts:"Cuentas cloud",
+          audit:"auditoría de cambios vía API"},
+      en:{alt:"Diagram: from the Git repository to a pipeline, then to CSPM policies and the cloud accounts",
+          repo:"versioned policies",pipe:"Python",pol:"custom rules",accounts:"Cloud accounts",
+          audit:"change audit through the API"}
+    }
+  },
+
+  landing:{
+    title:{es:"Landing zone hub and spoke",en:"Hub and spoke landing zone"},
+    cap:{es:"Un hub con los servicios compartidos y la conectividad, y un radio por proyecto. Todo se despliega desde el mismo código, y la consola de seguridad observa el conjunto.",
+         en:"One hub holding shared services and connectivity, one spoke per project. Everything is deployed from the same code, and the security console watches the whole estate."},
+    svg:(L)=>'<svg viewBox="0 0 900 300" role="img" aria-label="'+L.alt+'">'+defs('lp')+
+      box(10,120,160,58,"Terraform",L.iac,"Terraform")+
+      '<path class="edge" d="M170 149 H286"'+A('lp')+'/>'+
+      box(290,112,190,74,"Hub",L.shared,"GCP")+
+      '<path class="edge" d="M480 149 H540 V44 H606"'+A('lp')+'/>'+
+      '<path class="edge" d="M480 149 H606"'+A('lp')+'/>'+
+      '<path class="edge" d="M480 149 H540 V254 H606"'+A('lp')+'/>'+
+      box(610,20,250,48,L.spoke+" 1","",null,"soft")+
+      box(610,125,250,48,L.spoke+" 2","",null,"soft")+
+      box(610,230,250,48,L.spoke+" n","",null,"soft")+
+      '<text class="elabel" x="735" y="98" text-anchor="middle">'+L.count+'</text>'+
+      box(290,228,190,52,"Security Command Center","","Security Command Center")+
+      '<path class="edge dash" d="M385 228 V192"'+AD('lp')+'/>'+
+    '</svg>',
+    labels:{
+      es:{alt:"Diagrama: Terraform despliega un hub con servicios compartidos y entre 50 y 60 radios",
+          iac:"infraestructura como código",shared:"servicios compartidos",spoke:"Proyecto",count:"50–60 proyectos"},
+      en:{alt:"Diagram: Terraform deploys a hub holding shared services and 50 to 60 spokes",
+          iac:"infrastructure as code",shared:"shared services",spoke:"Project",count:"50–60 projects"}
+    }
+  },
+
+  secrets:{
+    title:{es:"Gestión centralizada de secretos",en:"Centralised secret management"},
+    cap:{es:"Un único servicio de secretos para todos los equipos, con el mismo modelo de gestión tanto si el consumidor está en cloud como en on-premise. Nadie guarda credenciales en su propio repositorio.",
+         en:"A single secret service for every team, with the same management model whether the consumer sits in the cloud or on-premise. Nobody keeps credentials in their own repository."},
+    svg:(L)=>'<svg viewBox="0 0 900 280" role="img" aria-label="'+L.alt+'">'+defs('sp')+
+      box(10,104,210,72,L.teams,L.scope,null,"soft")+
+      '<path class="edge" d="M220 140 H316"'+A('sp')+'/>'+
+      box(320,102,220,76,"HashiCorp Vault",L.svc,"HashiCorp Vault")+
+      '<path class="edge" d="M540 140 H586 V70 H652"'+A('sp')+'/>'+
+      '<path class="edge" d="M540 140 H586 V210 H652"'+A('sp')+'/>'+
+      box(656,44,234,52,L.cloud,"","AWS")+
+      box(656,184,234,52,L.onprem,"",null,"soft")+
+      '<text class="elabel" x="430" y="226" text-anchor="middle">'+L.agnostic+'</text>'+
+    '</svg>',
+    labels:{
+      es:{alt:"Diagrama: unos 200 proyectos consumen un gestor de secretos central que sirve a cloud y on-premise",
+          teams:"Equipos de desarrollo",scope:"≈200 proyectos",svc:"servicio transversal",
+          cloud:"Cargas en cloud",onprem:"Cargas on-premise",agnostic:"arquitectura de referencia agnóstica"},
+      en:{alt:"Diagram: around 200 projects consume a central secret manager serving cloud and on-premise",
+          teams:"Development teams",scope:"≈200 projects",svc:"shared service",
+          cloud:"Cloud workloads",onprem:"On-premise workloads",agnostic:"provider-agnostic reference architecture"}
+    }
+  }
+};
+
+/* ============================ ui strings ============================ */
+
+const UI = {
+  es:{
+    headline:"Cloud Security Specialist y Cloud Architect",
+    contact:["Andorra","Disponibilidad 100% remota","+376 636331"],
+    mail:"guilletin63@gmail.com", linkedin:"LinkedIn",
+    lede:"Nueve años en seguridad y arquitectura cloud. Trabajo sobre todo en la parte donde la postura de seguridad deja de ser un informe y pasa a ser código, tickets y controles que alguien tiene que cerrar. Aquí abajo está lo que he construido, sin nombres de cliente: busca una tecnología y verás dónde la he usado y para qué.",
+    filters:"Buscar y filtrar",
+    qLabel:"Buscar por tecnología o proyecto",
+    qPlaceholder:"terraform, servicenow, cspm…",
+    work:"Experiencia",
+    all:n=>n+" proyectos",
+    some:(n,t)=>n+(n===1?" proyecto":" proyectos")+" de "+t,
+    empty:"Nada coincide con esa búsqueda. Prueba con el nombre de un proveedor, de una herramienta o de un lenguaje.",
+    groups:{cloud:"Plataformas cloud",sec:"Seguridad",ops:"Automatización",app:"Integración y desarrollo"},
+    education:"Formación", eduTitle:"Ingeniería Informática", eduOrg:"Universidad Autónoma de Madrid", eduYears:"2013 – 2018",
+    courses:"Formación complementaria",
+    courseList:["Security Engineering on AWS","Smart Cybersecurity with Microsoft: Main Solutions"],
+    langs:"Idiomas", langList:["Español — nativo","Inglés — profesional"],
+    cv:"CV completo", cvNote:"¿Prefieres el PDF? Escríbeme y te lo mando.",
+    colophon:"Página escrita a mano, sin dependencias. Los diagramas son esquemáticos y no reproducen la arquitectura de ningún cliente."
+  },
+  en:{
+    headline:"Cloud Security Specialist & Cloud Architect",
+    contact:["Andorra","Remote only","+376 636331"],
+    mail:"guilletin63@gmail.com", linkedin:"LinkedIn",
+    lede:"Nine years in cloud security and architecture. I mostly work where security posture stops being a report and turns into code, tickets and controls somebody has to close. Below is what I have built, with no client names: search for a technology and you will see where I used it and what for.",
+    filters:"Search and filter",
+    qLabel:"Search by technology or project",
+    qPlaceholder:"terraform, servicenow, cspm…",
+    work:"Experience",
+    all:n=>n+" projects",
+    some:(n,t)=>n+(n===1?" project":" projects")+" using "+t,
+    empty:"Nothing matches that search. Try the name of a provider, a tool or a language.",
+    groups:{cloud:"Cloud platforms",sec:"Security",ops:"Automation",app:"Integration and development"},
+    education:"Education", eduTitle:"Computer Engineering", eduOrg:"Universidad Autónoma de Madrid", eduYears:"2013 – 2018",
+    courses:"Courses",
+    courseList:["Security Engineering on AWS","Smart Cybersecurity with Microsoft: Main Solutions"],
+    langs:"Languages", langList:["Spanish — native","English — professional"],
+    cv:"Full CV", cvNote:"Prefer the PDF? Drop me a line and I'll send it over.",
+    colophon:"Hand-written page, no dependencies. The diagrams are schematic and do not reproduce any client's architecture."
+  }
+};
+
+/* ============================ render ============================ */
+
+let lang = (navigator.language||"es").toLowerCase().startsWith("en") ? "en" : "es";
+let query = "";
+let active = [];
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
+function highlight(text){
+  if(!query) return esc(text);
+  const n = norm(text), q = norm(query);
+  let out = "", i = 0, k;
+  while((k = n.indexOf(q, i)) !== -1){
+    out += esc(text.slice(i,k)) + "<mark>" + esc(text.slice(k,k+query.length)) + "</mark>";
+    i = k + query.length;
+  }
+  return out + esc(text.slice(i));
+}
+
+const hasTech = t => active.indexOf(t) !== -1;
+
+function entryMatches(e){
+  for(var i=0;i<active.length;i++) if(e.tech.indexOf(active[i]) === -1) return false;
+  if(!query) return true;
+  const q = norm(query);
+  const hay = [e.sector[lang], e.title[lang], ...e.lines[lang], ...e.tech].join(" ");
+  return norm(hay).indexOf(q) !== -1;
+}
+
+function diagramHTML(key){
+  const d = DIAGRAMS[key];
+  return '<div class="dg"><p class="dg-title">'+esc(d.title[lang])+'</p>'+
+    d.svg(d.labels[lang]) + '<p class="cap">'+esc(d.cap[lang])+'</p></div>';
+}
+
+function renderStatic(){
+  const u = UI[lang];
+  document.documentElement.lang = lang;
+  $("#headline").textContent = u.headline;
+  $("#lede").textContent = u.lede;
+  $("#filter-title").textContent = u.filters;
+  $("#work-title").textContent = u.work;
+  $("#q").setAttribute("aria-label", u.qLabel);
+  $("#q").placeholder = u.qPlaceholder;
+  $("#empty").textContent = u.empty;
+  $("#colophon").textContent = u.colophon;
+
+  $("#contact").innerHTML =
+    u.contact.map(c => "<li>"+esc(c)+"</li>").join("") +
+    '<li><a href="mailto:'+u.mail+'">'+u.mail+'</a></li>' +
+    '<li><a href="https://www.linkedin.com/in/guillermo-diaz-juan/" rel="me">'+u.linkedin+'</a></li>';
+
+  $("#hero-diagram").innerHTML = diagramHTML("posture");
+
+  const order = ["cloud","sec","ops","app"];
+  $("#groups").innerHTML = order.map(g => {
+    const list = Object.keys(TECHS).filter(t => TECHS[t] === g);
+    return '<div class="grp"><h3>'+esc(u.groups[g])+'</h3><div class="chips">'+
+      list.map(t => '<button type="button" class="chip" data-tech="'+esc(t)+'" aria-pressed="false">'+esc(t)+'</button>').join("")+
+      '</div></div>';
+  }).join("");
+
+  $("#tail").innerHTML =
+    '<div><h2>'+esc(u.education)+'</h2><p>'+esc(u.eduTitle)+'</p><p class="yr">'+esc(u.eduOrg)+'</p><p class="yr">'+esc(u.eduYears)+'</p></div>'+
+    '<div><h2>'+esc(u.courses)+'</h2><ul>'+u.courseList.map(c=>"<li>"+esc(c)+"</li>").join("")+'</ul></div>'+
+    '<div><h2>'+esc(u.langs)+'</h2><ul>'+u.langList.map(c=>"<li>"+esc(c)+"</li>").join("")+'</ul></div>';
+
+  document.querySelectorAll(".langs button").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+}
+
+function renderJobs(){
+  const html = JOBS.map(job => {
+    const entries = job.entries.map(e => {
+      const on = entryMatches(e);
+      return '<article class="entry'+(on?"":" out")+'">'+
+        '<div class="entry-head"><span class="sector">'+esc(e.sector[lang])+'</span>'+
+        '<h4>'+highlight(e.title[lang])+'</h4></div>'+
+        '<ul>'+e.lines[lang].map(l=>"<li>"+highlight(l)+"</li>").join("")+'</ul>'+
+        '<div class="tags">'+e.tech.map(t =>
+          '<button type="button" class="tag'+(hasTech(t)?" on":"")+'" data-tech="'+esc(t)+'">'+esc(t)+'</button>').join("")+'</div>'+
+        (e.diagram ? '<div class="embed">'+diagramHTML(e.diagram)+'</div>' : '')+
+      '</article>';
+    });
+    const anyOn = job.entries.some(entryMatches);
+    return '<section class="job'+(anyOn?"":" out")+'">'+
+      '<div class="job-head"><h3>'+esc(job.org)+'</h3><span class="job-dates">'+esc(job.dates[lang])+'</span></div>'+
+      '<p class="job-place">'+esc(job.place[lang])+'</p>'+
+      entries.join("")+
+    '</section>';
+  }).join("");
+  $("#jobs").innerHTML = html;
+
+  const u = UI[lang];
+  const total = JOBS.reduce((n,j)=>n+j.entries.length,0);
+  const shown = JOBS.reduce((n,j)=>n+j.entries.filter(entryMatches).length,0);
+  const filtering = query || active.length;
+  $("#count").textContent = filtering ? u.some(shown, active.join(" + ") || query) : u.all(total);
+  $("#count").classList.toggle("on", !!filtering);
+  $("#empty").hidden = shown !== 0;
+  $("#clear").hidden = !query;
+
+  document.querySelectorAll(".chip").forEach(c => {
+    const t = c.dataset.tech;
+    c.setAttribute("aria-pressed", String(hasTech(t)));
+    c.classList.toggle("dim", !!query && norm(t).indexOf(norm(query)) === -1 && !hasTech(t));
+  });
+
+  document.querySelectorAll(".node[data-tech]").forEach(n => {
+    const t = n.dataset.tech;
+    const hot = (query && norm(t).indexOf(norm(query)) !== -1) || hasTech(t);
+    n.classList.toggle("hit", !!hot);
+  });
+}
+
+function toggleTech(t){
+  const i = active.indexOf(t);
+  i === -1 ? active.push(t) : active.splice(i,1);
+  renderJobs();
+}
+
+document.addEventListener("click", ev => {
+  const chip = ev.target.closest(".chip, .tag");
+  if(chip){ toggleTech(chip.dataset.tech); return; }
+  const lb = ev.target.closest(".langs button");
+  if(lb){ lang = lb.dataset.lang; renderStatic(); renderJobs(); return; }
+  if(ev.target.closest("#clear")){ query = ""; $("#q").value = ""; renderJobs(); }
+});
+
+$("#q").addEventListener("input", ev => { query = ev.target.value.trim(); renderJobs(); });
+
+renderStatic();
+renderJobs();
+</script>
+</body>
+</html>
