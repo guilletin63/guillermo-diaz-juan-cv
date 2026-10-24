@@ -44,6 +44,24 @@ h1{
 .langs button+button{border-left:1px solid var(--rule)}
 .langs button[aria-pressed="true"]{background:var(--ink);color:#fff}
 
+.head-actions{display:flex;align-items:flex-start;gap:10px;flex:none}
+.pdf{
+  font-family:inherit;font-size:.82rem;font-weight:500;letter-spacing:.04em;
+  padding:7px 14px;border:1px solid var(--ink);border-radius:2px;
+  background:var(--ink);color:#fff;cursor:pointer;
+}
+.pdf:hover{background:#000}
+
+/* ---------- proof strip ---------- */
+.proof{
+  margin:0 0 30px;padding:18px 0;list-style:none;
+  display:flex;flex-wrap:wrap;gap:14px 40px;
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+}
+.proof li{display:flex;flex-direction:column;gap:2px;max-width:30ch}
+.proof b{font-size:1.75rem;font-weight:600;letter-spacing:-.02em;line-height:1;font-family:var(--mono)}
+.proof span{font-size:.84rem;color:var(--muted)}
+
 /* ---------- hero diagram ---------- */
 .hero{background:var(--panel);border-bottom:1px solid var(--rule)}
 .hero .wrap{padding:36px 24px 40px}
@@ -141,9 +159,24 @@ mark{background:var(--mark-soft);color:var(--mark);padding:0 1px;border-radius:2
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media print{
-  .rail,.langs,.colophon{display:none}
-  body{background:#fff}
-  .columns{grid-template-columns:1fr}
+  @page{size:A4;margin:14mm}
+  .rail,.langs,.head-actions,.colophon,.search,.count,.tags,.embed,.dg{display:none!important}
+  html,body{background:#fff;color:#000;font-size:10.5pt}
+  .wrap{max-width:none;padding:0}
+  .columns{display:block;padding:0}
+  .masthead,.hero,.tail{border:0;background:#fff}
+  .masthead .wrap{padding:0 0 10px}
+  .hero .wrap{padding:10px 0}
+  a{color:#000;border:0}
+  h1{font-size:22pt}
+  .entry.out,.job.out{display:block!important}
+  .entry{break-inside:avoid;page-break-inside:avoid}
+  .job{break-inside:auto}
+  .work h2{margin-top:6px}
+  .proof{border-color:#999}
+  .proof b{font-size:14pt}
+  .lede{max-width:none}
+  mark{background:none;color:inherit;font-weight:inherit}
 }
 </style>
 </head>
@@ -154,11 +187,14 @@ mark{background:var(--mark-soft);color:var(--mark);padding:0 1px;border-radius:2
     <div class="topline">
       <div>
         <h1>Guillermo Díaz Juan</h1>
-        <p class="headline" id="headline">Cloud Security Specialist &amp; Cloud Architect</p>
+        <p class="headline" id="headline">Cloud Security Architect | Cloud Security Specialist</p>
       </div>
+      <div class="head-actions">
+      <button type="button" class="pdf" id="print-cv"></button>
       <div class="langs" role="group" aria-label="Idioma / Language">
         <button type="button" data-lang="es" aria-pressed="true">ES</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
       </div>
     </div>
     <ul class="contact" id="contact"></ul>
@@ -168,6 +204,7 @@ mark{background:var(--mark-soft);color:var(--mark);padding:0 1px;border-radius:2
 <section class="hero">
   <div class="wrap">
     <p class="lede" id="lede"></p>
+    <ul class="proof" id="proof"></ul>
     <div class="dg" id="hero-diagram"></div>
   </div>
 </section>
@@ -207,8 +244,7 @@ const TECHS = {
   "Security Command Center":"sec","Defender for Endpoint":"sec","HashiCorp Vault":"sec",
   "AWS KMS":"sec","IAM":"sec","Conditional Access":"sec","Microsoft AIP":"sec","NIST":"sec",
   "Terraform":"ops","Python":"ops","Bash":"ops","GitHub Actions":"ops","CI/CD":"ops","Git":"ops","ETL":"ops",
-  "ServiceNow":"app","Apigee":"app","REST APIs":"app","Salesforce":"app","Apex":"app","LWC":"app",
-  "MuleSoft":"app","DocuSign":"app","Java":"app","PowerBI":"app","PlantUML":"app"
+  "ServiceNow":"app","Apigee":"app","REST APIs":"app","Java":"app","PowerBI":"app","PlantUML":"app"
 };
 
 const JOBS = [
@@ -219,96 +255,70 @@ const JOBS = [
     entries:[
       {
         sector:{es:"Farmacéutico",en:"Pharmaceutical"},
-        title:{es:"Seguridad cloud dentro de un SOC",en:"Cloud security within a SOC"},
+        title:{es:"Cloud Security Specialist en un SOC",en:"Cloud Security Specialist within a SOC"},
         lines:{es:[
-          "Gestión de la postura de seguridad de unas 1.460 cuentas cloud repartidas entre AWS, Azure y GCP.",
-          "Liderazgo técnico del equipo de seguridad cloud: reparto del trabajo operativo y mentorización de los perfiles junior.",
-          "Integraciones a medida vía API entre el CSPM y el gestor de tickets, que abren automáticamente vulnerabilidades y malas configuraciones de severidad crítica y alta: en torno a 20 tickets al día.",
-          "Automatización del onboarding de cuentas para una región con requisitos propios, adaptando las plantillas del CSPM: unas 100 cuentas incorporadas.",
-          "Políticas de seguridad gestionadas como código, con pipelines y desarrollos en Python.",
-          "Diseño del plan de migración de la plataforma CSPM a su nueva generación e interlocución técnica con el partner.",
-          "Diseño de controles de seguridad alineados con NIST."
+          "Automaticé la apertura de unos 400 tickets al mes (≈20 diarios) de vulnerabilidades y malas configuraciones críticas y altas, con integraciones a medida vía API entre el CSPM y el gestor de tickets.",
+          "Sostuve la postura de seguridad de 1.460 cuentas cloud — 1.200 en AWS, 250 en Azure y 10 en GCP — como responsable técnico del equipo de seguridad cloud.",
+          "Incorporé unas 100 cuentas de una región con requisitos propios automatizando el onboarding sobre las plantillas del CSPM.",
+          "Acabé con la deriva de configuración llevando las políticas de seguridad a Git, con pipelines y desarrollos en Python: cada cambio queda en un commit en lugar de aplicarse a mano en consola.",
+          "Llevé a perfiles junior a cerrar hallazgos en autonomía, dirigiendo y mentorizando al equipo y repartiendo el trabajo operativo.",
+          "Definí el plan de migración del CSPM a su nueva generación sobre las 1.460 cuentas, como interlocutor técnico directo con el partner.",
+          "Traduje NIST a controles implementables y verificables, diseñando además las técnicas de notificación de incidentes."
         ],en:[
-          "Security posture management across roughly 1,460 cloud accounts spread over AWS, Azure and GCP.",
-          "Technical lead of the cloud security team: distribution of operational work and mentoring of junior profiles.",
-          "Custom API integrations between the CSPM platform and the ticketing system, automatically raising critical and high severity vulnerabilities and misconfigurations: around 20 tickets a day.",
-          "Automated account onboarding for a region with its own requirements, adapting the CSPM templates: around 100 accounts onboarded.",
-          "Security policies managed as code, through pipelines and Python development.",
-          "Design of the migration plan from the CSPM platform to its next generation, with direct technical liaison with the partner.",
-          "Design of security controls aligned with NIST."
+          "Automated the raising of around 400 tickets a month (≈20 a day) for critical and high severity vulnerabilities and misconfigurations, through custom API integrations between the CSPM and the ticketing system.",
+          "Held the security posture of 1,460 cloud accounts — 1,200 in AWS, 250 in Azure and 10 in GCP — as technical lead of the cloud security team.",
+          "Onboarded around 100 accounts from a region with its own requirements by automating the process on top of the CSPM templates.",
+          "Ended configuration drift by moving security policies into Git, with pipelines and Python development: every change lands in a commit instead of being applied by hand in the console.",
+          "Brought junior profiles to the point of closing findings independently, leading and mentoring the team and distributing the operational work.",
+          "Defined the migration plan from the CSPM platform to its next generation across the 1,460 accounts, as direct technical counterpart to the partner.",
+          "Translated NIST into implementable, verifiable controls, and designed the incident notification techniques."
         ]},
         tech:["AWS","Azure","GCP","Prisma Cloud","Cortex","ServiceNow","AWS Security Hub","Defender for Cloud","Python","Bash","Git","CI/CD","NIST"],
         diagram:"policy"
       },
       {
         sector:{es:"Banca",en:"Banking"},
-        title:{es:"Arquitectura de seguridad cloud",en:"Cloud security architecture"},
+        title:{es:"Cloud Security Architect",en:"Cloud Security Architect"},
         lines:{es:[
-          "Arquitecturas de referencia agnósticas, válidas tanto en cloud como en on-premise, con los elementos exigidos para considerarse seguras.",
-          "Configuración y modelo de gestión de un gestor de secretos centralizado, ofrecido como servicio transversal a cualquier equipo de desarrollo, con un alcance del orden de 200 proyectos.",
-          "Supervisión de la implementación y soporte a los equipos de desarrollo en la aplicación de los requisitos de seguridad."
+          "Puse un gestor de secretos centralizado a disposición de unos 200 proyectos como servicio transversal, definiendo su configuración y su modelo de gestión.",
+          "Eliminé la revisión de seguridad caso a caso publicando arquitecturas de referencia agnósticas — válidas en cloud y on-premise — que llevan dentro los elementos exigidos para considerarse seguras.",
+          "Aseguré la aplicación real de los requisitos supervisando la implementación y dando soporte directo a los equipos de desarrollo."
         ],en:[
-          "Provider-agnostic reference architectures, valid for both cloud and on-premise, carrying the elements required for an architecture to be considered secure.",
-          "Configuration and management model for a centralised secret manager, offered as a cross-cutting service to any development team, with a scope in the order of 200 projects.",
-          "Supervision of the implementation and support to development teams in applying security requirements."
+          "Made a centralised secret manager available to around 200 projects as a cross-cutting service, defining its configuration and management model.",
+          "Removed the need for case-by-case security review by publishing provider-agnostic reference architectures — valid for cloud and on-premise — carrying the elements required to be considered secure.",
+          "Ensured the requirements were actually applied by supervising the implementation and supporting development teams directly."
         ]},
         tech:["AWS","Azure","Terraform","HashiCorp Vault","GitHub Actions","Python","Bash","AWS Security Hub","Defender for Cloud","IAM"],
         diagram:"secrets"
       },
       {
-        sector:{es:"Banca",en:"Banking"},
-        title:{es:"Diseño de APIs",en:"API design"},
-        lines:{es:[
-          "Definición del comportamiento de microservicios junto al equipo funcional, investigando las dependencias de negocio.",
-          "Diagramas UML, especialmente de secuencia, como contrato de trabajo con el equipo de desarrollo."
-        ],en:[
-          "Definition of microservice behaviour together with the functional team, researching business dependencies.",
-          "UML diagrams, sequence diagrams in particular, as the working contract with the development team."
-        ]},
-        tech:["Apigee","REST APIs","PlantUML","ServiceNow"]
-      },
-      {
         sector:{es:"Telecomunicaciones",en:"Telecommunications"},
-        title:{es:"Landing zone en arquitectura hub and spoke",en:"Hub and spoke landing zone"},
+        title:{es:"Cloud Architect — landing zone hub and spoke",en:"Cloud Architect — hub and spoke landing zone"},
         lines:{es:[
-          "Diseño e implementación de la landing zone para una unidad de negocio, con un alcance de entre 50 y 60 proyectos.",
-          "Configuración de los servicios de cómputo, almacenamiento y bases de datos, desplegada mediante infraestructura como código.",
-          "Documentación completa del proceso y las especificaciones en HLD y LLD."
+          "Entregué la landing zone que soporta entre 50 y 60 proyectos de una unidad de negocio, desplegada íntegramente con Terraform y validada contra Security Command Center.",
+          "Cerré el perímetro de red con políticas de firewall jerárquicas a nivel de organización y carpeta, reglas de firewall de VPC y zonas privadas de DNS para el hub compartido.",
+          "Acoté el acceso proyecto a proyecto diseñando roles IAM, cuentas de servicio y Organization Policies.",
+          "Dejé el proceso y las especificaciones documentados en HLD y LLD, con cómputo, almacenamiento y bases de datos desplegados como código."
         ],en:[
-          "Design and implementation of the landing zone for a business unit, with a scope of 50 to 60 projects.",
-          "Configuration of compute, storage and database services, deployed through infrastructure as code.",
-          "Full documentation of the process and specifications in HLD and LLD."
+          "Delivered the landing zone supporting 50 to 60 projects of a business unit, deployed entirely with Terraform and validated against Security Command Center.",
+          "Closed the network perimeter with hierarchical firewall policies at organisation and folder level, VPC firewall rules and private DNS zones for the shared hub.",
+          "Scoped access project by project by designing IAM roles, service accounts and Organization Policies.",
+          "Left process and specifications documented in HLD and LLD, with compute, storage and databases deployed as code."
         ]},
-        tech:["GCP","Terraform","Security Command Center"],
+        tech:["GCP","Terraform","Security Command Center","IAM"],
         diagram:"landing"
       },
       {
-        sector:{es:"Turismo",en:"Travel"},
-        title:{es:"Arquitectura de plataforma",en:"Platform architecture"},
+        sector:{es:"Banca · Turismo",en:"Banking · Travel"},
+        title:{es:"API Designer · Principal Architect",en:"API Designer · Principal Architect"},
         lines:{es:[
-          "Definición e implementación de la mejor solución para los requisitos de negocio, monitorización de servicios y mejora de las arquitecturas conforme a los estándares definidos.",
-          "Apoyo a los equipos de desarrollo y DevOps aportando el criterio de seguridad en los diseños de infraestructura."
+          "Fijé el contrato de trabajo con el equipo de desarrollo mediante diagramas UML de secuencia, tras definir el comportamiento de los microservicios y sus dependencias de negocio.",
+          "Elevé las arquitecturas existentes al estándar definido y embebí el criterio de seguridad en los diseños de infraestructura de los equipos de desarrollo y DevOps."
         ],en:[
-          "Definition and implementation of the best solution for business requirements, service monitoring and improvement of architectures in line with defined standards.",
-          "Support to development and DevOps teams, bringing the security perspective into infrastructure designs."
+          "Set the working contract with the development team through UML sequence diagrams, after defining microservice behaviour and its business dependencies.",
+          "Raised existing architectures to the defined standard and embedded the security perspective into the infrastructure designs of development and DevOps teams."
         ]},
-        tech:["AWS","Python","Bash","AWS Security Hub"]
-      },
-      {
-        sector:{es:"Oil and gas · Banca",en:"Oil and gas · Banking"},
-        title:{es:"Desarrollo sobre Salesforce",en:"Salesforce development"},
-        lines:{es:[
-          "Soluciones a medida con Apex, Visualforce y Lightning Web Components.",
-          "Integración con sistemas externos mediante APIs y middleware.",
-          "Automatización de la entrega y la firma de contratos integrando la plataforma de firma electrónica.",
-          "Ciclo de desarrollo completo bajo principios Agile, con despliegues controlados entre entornos."
-        ],en:[
-          "Custom solutions using Apex, Visualforce and Lightning Web Components.",
-          "Integration with external systems through APIs and middleware.",
-          "Automation of contract delivery and signature by integrating the electronic signature platform.",
-          "Full development lifecycle under Agile principles, with controlled deployments across environments."
-        ]},
-        tech:["Salesforce","Apex","LWC","MuleSoft","DocuSign","GitHub Actions","Git"]
+        tech:["Apigee","REST APIs","PlantUML","AWS","Python","Bash","AWS Security Hub"]
       }
     ]
   },
@@ -321,19 +331,15 @@ const JOBS = [
         sector:{es:"Farmacéutico",en:"Pharmaceutical"},
         title:{es:"Despliegue de CSPM multicloud",en:"Multicloud CSPM rollout"},
         lines:{es:[
-          "Onboarding de la herramienta CSPM en cuentas y suscripciones de los tres proveedores, revisando los permisos de la plantilla para ajustarlos a lo que el cliente necesitaba.",
-          "Comparativa entre las capacidades nativas de seguridad de AWS, Azure y GCP y las de la herramienta.",
-          "Análisis de las alertas por defecto en cada proveedor para personalizar las políticas.",
-          "Pipelines de CI/CD que auditan los cambios de políticas y de reglas personalizadas a través de la API.",
-          "Exportación de los hallazgos a un data lake y explotación en cuadros de mando.",
-          "Liderazgo del proyecto desde el onboarding hasta el desarrollo de una librería propia de consumo de la API."
+          "Di al cliente su primera visibilidad unificada de postura exportando los hallazgos del CSPM a un data lake y explotándolos en cuadros de mando.",
+          "Lideré el proyecto de punta a punta, del onboarding en los tres proveedores al desarrollo de una librería propia de consumo de la API.",
+          "Blindé los cambios de configuración con pipelines de CI/CD que auditan políticas y reglas personalizadas a través de la API.",
+          "Personalicé las políticas analizando las alertas por defecto de cada proveedor y comparando sus capacidades nativas de seguridad."
         ],en:[
-          "Onboarding of the CSPM tool across accounts and subscriptions of all three providers, reviewing template permissions to match what the client actually needed.",
-          "Comparison between the native security capabilities of AWS, Azure and GCP and those of the tool.",
-          "Analysis of the default alerts raised by each provider in order to customise policies.",
-          "CI/CD pipelines auditing policy and custom rule changes through the API.",
-          "Export of findings into a data lake and exploitation through dashboards.",
-          "Project leadership from onboarding through to an in-house library for consuming the API."
+          "Gave the client its first unified view of posture by exporting CSPM findings into a data lake and surfacing them through dashboards.",
+          "Led the project end to end, from onboarding across all three providers to an in-house library for consuming the API.",
+          "Hardened configuration changes with CI/CD pipelines auditing policies and custom rules through the API.",
+          "Customised policies by analysing each provider's default alerts and comparing their native security capabilities."
         ]},
         tech:["AWS","Azure","GCP","Prisma Cloud","AWS Security Hub","Defender for Cloud","Security Command Center","Python","CI/CD","PowerBI","ETL"]
       },
@@ -341,47 +347,27 @@ const JOBS = [
         sector:{es:"Banca",en:"Banking"},
         title:{es:"Controles cloud e identidad",en:"Cloud controls and identity"},
         lines:{es:[
-          "Diseño de los controles de seguridad a implementar en cada proveedor cloud y whitepaper con las capacidades más relevantes de cada uno.",
-          "Definición e implementación de reglas de acceso condicional sobre usuarios, aplicaciones y dispositivos.",
-          "Despliegue de la solución de protección de la información junto al equipo de DLP, incluyendo pruebas."
+          "Fijé el estándar de controles cloud del cliente diseñando los controles por proveedor y documentando un whitepaper de capacidades de seguridad.",
+          "Cerré el acceso sobre usuarios, aplicaciones y dispositivos con reglas de acceso condicional, y desplegué la solución de protección de la información junto al equipo de DLP."
         ],en:[
-          "Design of the security controls to implement in each cloud provider, plus a whitepaper covering the most relevant capabilities of each one.",
-          "Definition and implementation of conditional access rules across users, applications and devices.",
-          "Deployment of the information protection solution alongside the DLP team, testing included."
+          "Set the client's cloud control standard by designing the controls per provider and documenting a security capability whitepaper.",
+          "Closed access across users, applications and devices with conditional access rules, and deployed the information protection solution alongside the DLP team."
         ]},
         tech:["AWS","Azure","GCP","Conditional Access","Microsoft AIP","IAM"]
       },
       {
-        sector:{es:"Telecomunicaciones",en:"Telecommunications"},
-        title:{es:"Gestor de secretos a medida",en:"Custom secret manager"},
+        sector:{es:"Farmacéutico · Telecomunicaciones · Seguridad",en:"Pharmaceutical · Telecommunications · Security"},
+        title:{es:"Seguridad del dato, secretos y endpoint",en:"Data, secrets and endpoint security"},
         lines:{es:[
-          "Análisis y diseño de un gestor de secretos para certificados y API keys, supervisando a los equipos de desarrollo y la implantación de los controles de seguridad."
+          "Protegí la ingesta de datos definiendo y desplegando la configuración de seguridad de los servicios cloud implicados, con cifrado gestionado y revisión de postura.",
+          "Diseñé un gestor de secretos a medida para certificados y API keys, supervisando a los equipos de desarrollo y la implantación de los controles.",
+          "Validé una solución de detección y respuesta en endpoint en prueba de concepto, montando los laboratorios y presentando resultados al cliente."
         ],en:[
-          "Analysis and design of a secret manager for certificates and API keys, supervising the development teams and the rollout of the security controls."
+          "Protected data ingestion by defining and deploying the security configuration of the cloud services involved, with managed encryption and posture review.",
+          "Designed a custom secret manager for certificates and API keys, supervising the development teams and the rollout of the controls.",
+          "Validated an endpoint detection and response solution in a proof of concept, building the labs and presenting results to the client."
         ]},
-        tech:["IAM","Python","REST APIs"]
-      },
-      {
-        sector:{es:"Farmacéutico",en:"Pharmaceutical"},
-        title:{es:"Seguridad de plataformas de datos",en:"Data platform security"},
-        lines:{es:[
-          "Análisis, diseño y despliegue de la configuración de seguridad de los servicios cloud implicados en la ingesta de datos.",
-          "Apoyo en el despliegue de una solución de protección del dato y documentación de todas las soluciones."
-        ],en:[
-          "Analysis, design and deployment of the security configuration for the cloud services involved in data ingestion.",
-          "Support in the rollout of a data protection solution, and documentation of every solution delivered."
-        ]},
-        tech:["AWS","AWS KMS","AWS Security Hub","ETL"]
-      },
-      {
-        sector:{es:"Seguridad",en:"Security"},
-        title:{es:"Prueba de concepto de EDR",en:"EDR proof of concept"},
-        lines:{es:[
-          "Montaje de los laboratorios y prueba de concepto de una solución de detección y respuesta en endpoint, con presentación de resultados al cliente."
-        ],en:[
-          "Lab build and proof of concept for an endpoint detection and response solution, with results presented to the client."
-        ]},
-        tech:["Defender for Endpoint"]
+        tech:["AWS","AWS KMS","AWS Security Hub","Defender for Endpoint","IAM","Python","REST APIs","ETL"]
       }
     ]
   },
@@ -391,30 +377,18 @@ const JOBS = [
     dates:{es:"08.2019 — 09.2020",en:"08.2019 — 09.2020"},
     entries:[
       {
-        sector:{es:"Oil and gas",en:"Oil and gas"},
-        title:{es:"Ingesta y explotación de datos",en:"Data ingestion and exploitation"},
+        sector:{es:"Oil and gas · Retail",en:"Oil and gas · Retail"},
+        title:{es:"Software Architect — datos y e-commerce",en:"Software Architect — data and e-commerce"},
         lines:{es:[
-          "Diseño y desarrollo de la ingesta de datos sobre infraestructuras IoT y serverless, con ETLs hacia data lakes.",
-          "Exposición de esa información a otros proveedores, dentro y fuera de la plataforma cloud, mediante APIs REST.",
-          "Desarrollo y mantenimiento de librerías internas en Python."
+          "Puse en producción la ingesta de datos sobre infraestructuras IoT y serverless, con ETLs hacia data lakes y exposición a proveedores internos y externos vía APIs REST.",
+          "Desarrollé y mantuve las librerías internas en Python que usaba el equipo.",
+          "Entregué la solución full stack de una nueva línea de e-commerce, adaptada al ciclo de desarrollo y a los entornos del cliente."
         ],en:[
-          "Design and development of data ingestion over IoT and serverless infrastructure, with ETLs into data lakes.",
-          "Exposure of that information to other providers, inside and outside the cloud platform, through REST APIs.",
-          "Development and maintenance of internal Python libraries."
+          "Put into production the data ingestion over IoT and serverless infrastructure, with ETLs into data lakes and exposure to internal and external providers through REST APIs.",
+          "Developed and maintained the internal Python libraries used across the team.",
+          "Delivered the full stack solution for a new e-commerce line, adapted to the client's development lifecycle and environments."
         ]},
-        tech:["AWS","GCP","Python","REST APIs","ETL"]
-      },
-      {
-        sector:{es:"Retail",en:"Retail"},
-        title:{es:"Solución full stack para e-commerce",en:"Full stack e-commerce solution"},
-        lines:{es:[
-          "Análisis, diseño e implementación de una solución a medida para una nueva línea de e-commerce, adaptada al ciclo de desarrollo y a los entornos del cliente.",
-          "Trabajo conjunto con el equipo de UX y con los responsables de tienda física."
-        ],en:[
-          "Analysis, design and implementation of a custom solution for a new e-commerce line, adapted to the client's development lifecycle and environments.",
-          "Close work with the UX team and with physical store managers."
-        ]},
-        tech:["Java","Python","REST APIs"]
+        tech:["AWS","GCP","Python","Java","REST APIs","ETL"]
       }
     ]
   },
@@ -425,15 +399,13 @@ const JOBS = [
     entries:[
       {
         sector:{es:"Producto",en:"Product"},
-        title:{es:"Backend y plataformas de datos",en:"Backend and data platforms"},
+        title:{es:"Developer — backend y plataformas de datos",en:"Developer — backend and data platforms"},
         lines:{es:[
-          "Soluciones templatizadas para incorporar APIs REST, data lakes y ETLs en entornos de AWS y GCP.",
-          "Servidores en Java y Python para aplicaciones Android e iOS.",
-          "Bases de datos relacionales, no relacionales y de grafos, con DAOs y helpers para servir la información al front-end."
+          "Reduje el arranque de nuevos proyectos templatizando APIs REST, data lakes y ETLs sobre AWS y GCP.",
+          "Desarrollé servidores en Java y Python para aplicaciones Android e iOS, con DAOs y helpers sobre bases de datos relacionales, no relacionales y de grafos."
         ],en:[
-          "Templated solutions for adding REST APIs, data lakes and ETLs in AWS and GCP environments.",
-          "Java and Python servers for Android and iOS applications.",
-          "Relational, non-relational and graph databases, with DAOs and helpers serving information to the front-end."
+          "Cut project start-up time by templating REST APIs, data lakes and ETLs on AWS and GCP.",
+          "Built Java and Python servers for Android and iOS applications, with DAOs and helpers over relational, non-relational and graph databases."
         ]},
         tech:["AWS","GCP","Java","Python","REST APIs","ETL"]
       }
@@ -572,10 +544,13 @@ const DIAGRAMS = {
 
 const UI = {
   es:{
-    headline:"Cloud Security Specialist y Cloud Architect",
+    headline:"Cloud Security Architect y Cloud Security Specialist",
     contact:["Andorra","Disponibilidad 100% remota","+376 636331"],
     mail:"guilletin63@gmail.com", linkedin:"LinkedIn",
-    lede:"Nueve años en seguridad y arquitectura cloud. Trabajo sobre todo en la parte donde la postura de seguridad deja de ser un informe y pasa a ser código, tickets y controles que alguien tiene que cerrar. Aquí abajo está lo que he construido, sin nombres de cliente: busca una tecnología y verás dónde la he usado y para qué.",
+    lede:"En la mayoría de organizaciones con varios cientos de cuentas cloud, la postura de seguridad vive en un informe que nadie cierra: hallazgos críticos abiertos desde hace meses, un responsable nominal y ninguna fecha. Eso es lo que yo cierro. Nueve años convirtiendo la postura en código, tickets y controles con dueño y fecha.",
+    proof:[["1.460","cuentas cloud en AWS, Azure y GCP"],["≈400","tickets/mes abiertos automáticamente"],["≈200","proyectos sobre un gestor de secretos central"]],
+    certs:"Certificaciones y formación", certsNote:"Security Engineering on AWS · Smart Cybersecurity with Microsoft",
+    print:"Descargar PDF",
     filters:"Buscar y filtrar",
     qLabel:"Buscar por tecnología o proyecto",
     qPlaceholder:"terraform, servicenow, cspm…",
@@ -592,10 +567,13 @@ const UI = {
     colophon:"Página escrita a mano, sin dependencias. Los diagramas son esquemáticos y no reproducen la arquitectura de ningún cliente."
   },
   en:{
-    headline:"Cloud Security Specialist & Cloud Architect",
+    headline:"Cloud Security Architect | Cloud Security Specialist",
     contact:["Andorra","Remote only","+376 636331"],
     mail:"guilletin63@gmail.com", linkedin:"LinkedIn",
-    lede:"Nine years in cloud security and architecture. I mostly work where security posture stops being a report and turns into code, tickets and controls somebody has to close. Below is what I have built, with no client names: search for a technology and you will see where I used it and what for.",
+    lede:"In most organisations running several hundred cloud accounts, security posture lives in a report nobody closes: critical findings open for months, a nominal owner and no date. That is what I close. Nine years turning posture into code, tickets and controls with an owner and a date.",
+    proof:[["1,460","cloud accounts across AWS, Azure and GCP"],["≈400","tickets/month raised automatically"],["≈200","projects on a central secret manager"]],
+    certs:"Certifications and training", certsNote:"Security Engineering on AWS · Smart Cybersecurity with Microsoft",
+    print:"Download PDF",
     filters:"Search and filter",
     qLabel:"Search by technology or project",
     qPlaceholder:"terraform, servicenow, cspm…",
@@ -667,6 +645,10 @@ function renderStatic(){
     '<li><a href="mailto:'+u.mail+'">'+u.mail+'</a></li>' +
     '<li><a href="https://www.linkedin.com/in/guillermo-diaz-juan/" rel="me">'+u.linkedin+'</a></li>';
 
+  $("#proof").innerHTML = u.proof.map(p =>
+    '<li><b>'+esc(p[0])+'</b><span>'+esc(p[1])+'</span></li>').join("");
+  $("#print-cv").textContent = u.print;
+
   $("#hero-diagram").innerHTML = diagramHTML("posture");
 
   const order = ["cloud","sec","ops","app"];
@@ -679,7 +661,7 @@ function renderStatic(){
 
   $("#tail").innerHTML =
     '<div><h2>'+esc(u.education)+'</h2><p>'+esc(u.eduTitle)+'</p><p class="yr">'+esc(u.eduOrg)+'</p><p class="yr">'+esc(u.eduYears)+'</p></div>'+
-    '<div><h2>'+esc(u.courses)+'</h2><ul>'+u.courseList.map(c=>"<li>"+esc(c)+"</li>").join("")+'</ul></div>'+
+    '<div><h2>'+esc(u.certs)+'</h2><ul>'+u.courseList.map(c=>"<li>"+esc(c)+"</li>").join("")+'</ul></div>'+
     '<div><h2>'+esc(u.langs)+'</h2><ul>'+u.langList.map(c=>"<li>"+esc(c)+"</li>").join("")+'</ul></div>';
 
   document.querySelectorAll(".langs button").forEach(b =>
@@ -741,6 +723,7 @@ document.addEventListener("click", ev => {
   if(chip){ toggleTech(chip.dataset.tech); return; }
   const lb = ev.target.closest(".langs button");
   if(lb){ lang = lb.dataset.lang; renderStatic(); renderJobs(); return; }
+  if(ev.target.closest("#print-cv")){ window.print(); return; }
   if(ev.target.closest("#clear")){ query = ""; $("#q").value = ""; renderJobs(); }
 });
 
