@@ -36,6 +36,11 @@ h1{
 }
 .headline{margin:.5rem 0 0;font-size:clamp(1rem,2.2vw,1.2rem);color:var(--muted);font-weight:500}
 .contact{margin:1.4rem 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:.88rem;color:var(--muted)}
+.contact .permit{
+  font-weight:600;color:var(--ink);
+  background:var(--mark-soft);border:1px solid #E8D3B6;
+  border-radius:2px;padding:2px 9px;
+}
 .langs{display:flex;gap:0;border:1px solid var(--rule);border-radius:2px;overflow:hidden;flex:none}
 .langs button{
   font-family:inherit;font-size:.82rem;font-weight:500;letter-spacing:.04em;
@@ -174,6 +179,7 @@ mark{background:var(--mark-soft);color:var(--mark);padding:0 1px;border-radius:2
   .job{break-inside:auto}
   .work h2{margin-top:6px}
   .proof{border-color:#999}
+  .contact .permit{background:none;border:0;padding:0;font-weight:700}
   .proof b{font-size:14pt}
   .lede{max-width:none}
   mark{background:none;color:inherit;font-weight:inherit}
@@ -546,6 +552,7 @@ const UI = {
   es:{
     headline:"Cloud Security Architect y Cloud Security Specialist",
     contact:["Andorra","Disponibilidad 100% remota","+376 636331"],
+    permit:"Permiso de trabajo en la UE y en el Reino Unido",
     mail:"guilletin63@gmail.com", linkedin:"LinkedIn",
     lede:"En la mayoría de organizaciones con varios cientos de cuentas cloud, la postura de seguridad vive en un informe que nadie cierra: hallazgos críticos abiertos desde hace meses, un responsable nominal y ninguna fecha. Eso es lo que yo cierro. Nueve años convirtiendo la postura en código, tickets y controles con dueño y fecha.",
     proof:[["1.460","cuentas cloud en AWS, Azure y GCP"],["≈400","tickets/mes abiertos automáticamente"],["≈200","proyectos sobre un gestor de secretos central"]],
@@ -569,6 +576,7 @@ const UI = {
   en:{
     headline:"Cloud Security Architect | Cloud Security Specialist",
     contact:["Andorra","Remote only","+376 636331"],
+    permit:"Right to work in the EU and the UK",
     mail:"guilletin63@gmail.com", linkedin:"LinkedIn",
     lede:"In most organisations running several hundred cloud accounts, security posture lives in a report nobody closes: critical findings open for months, a nominal owner and no date. That is what I close. Nine years turning posture into code, tickets and controls with an owner and a date.",
     proof:[["1,460","cloud accounts across AWS, Azure and GCP"],["≈400","tickets/month raised automatically"],["≈200","projects on a central secret manager"]],
@@ -643,7 +651,8 @@ function renderStatic(){
   $("#contact").innerHTML =
     u.contact.map(c => "<li>"+esc(c)+"</li>").join("") +
     '<li><a href="mailto:'+u.mail+'">'+u.mail+'</a></li>' +
-    '<li><a href="https://www.linkedin.com/in/guillermo-diaz-juan/" rel="me">'+u.linkedin+'</a></li>';
+    '<li><a href="https://www.linkedin.com/in/guillermo-diaz-juan/" rel="me">'+u.linkedin+'</a></li>' +
+    '<li class="permit">'+esc(u.permit)+'</li>';
 
   $("#proof").innerHTML = u.proof.map(p =>
     '<li><b>'+esc(p[0])+'</b><span>'+esc(p[1])+'</span></li>').join("");
