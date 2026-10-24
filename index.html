@@ -109,6 +109,7 @@ h1{
   padding:3px 8px;border-radius:2px;letter-spacing:.01em;
 }
 .entry-head h4{margin:0;font-size:1.02rem;font-weight:600}
+.entry-link{font-family:var(--mono);font-size:.74rem;overflow-wrap:anywhere}
 .entry ul{margin:0;padding-left:1.05em;max-width:74ch}
 .entry li{margin:0 0 6px;font-size:.94rem}
 .entry li::marker{color:var(--signal)}
@@ -208,10 +209,37 @@ const TECHS = {
   "AWS KMS":"sec","IAM":"sec","Conditional Access":"sec","Microsoft AIP":"sec","NIST":"sec",
   "Terraform":"ops","Python":"ops","Bash":"ops","GitHub Actions":"ops","CI/CD":"ops","Git":"ops","ETL":"ops",
   "ServiceNow":"app","Apigee":"app","REST APIs":"app","Salesforce":"app","Apex":"app","LWC":"app",
-  "MuleSoft":"app","DocuSign":"app","Java":"app","PowerBI":"app","PlantUML":"app"
+  "MuleSoft":"app","DocuSign":"app","Java":"app","PowerBI":"app","PlantUML":"app",
+  "TypeScript":"app","VS Code API":"app","GraphQL":"app"
 };
 
 const JOBS = [
+  {
+    org:"Open source",
+    place:{es:"GitHub",en:"GitHub"},
+    dates:{es:"10.2026 — actualidad",en:"10.2026 — present"},
+    entries:[
+      {
+        sector:{es:"Proyecto propio",en:"Side project"},
+        title:{es:"GitHub Projects en VS Code",en:"GitHub Projects in VS Code"},
+        link:"https://github.com/guilletin63/vscode-gh-projects",
+        lines:{es:[
+          "Extensión publicada en el Marketplace de VS Code que lleva los tableros de GitHub Projects (v2) al editor: un Jira dentro del propio GitHub, consultable en local.",
+          "Vistas de tablero, tabla y roadmap tal y como se ven en GitHub, con el filtro de cada vista, swimlanes y búsqueda.",
+          "Mover tarjetas con drag & drop o teclado, editar campos y crear borradores: los cambios se ven al momento y se revierten si GitHub los rechaza.",
+          "Cliente GraphQL propio sobre la API de GitHub, con la sesión de la cuenta de VS Code, paginación y reintentos según el rate limit.",
+          "La uso a diario para seguir el estado de mis tareas sin salir del editor."
+        ],en:[
+          "Extension published on the VS Code Marketplace that brings GitHub Projects (v2) boards into the editor: a Jira inside GitHub itself, available locally.",
+          "Board, table and roadmap views as they appear on GitHub, with each view's filter, swimlanes and search.",
+          "Move cards by drag & drop or keyboard, edit fields and create drafts: changes show at once and roll back if GitHub rejects them.",
+          "In-house GraphQL client over the GitHub API, using the VS Code account session, with pagination and rate-limit aware retries.",
+          "I use it daily to track the status of my tasks without leaving the editor."
+        ]},
+        tech:["TypeScript","VS Code API","GraphQL","GitHub Actions","CI/CD","Git"]
+      }
+    ]
+  },
   {
     org:"Freelance",
     place:{es:"Andorra — remoto",en:"Andorra — remote"},
@@ -692,7 +720,8 @@ function renderJobs(){
       const on = entryMatches(e);
       return '<article class="entry'+(on?"":" out")+'">'+
         '<div class="entry-head"><span class="sector">'+esc(e.sector[lang])+'</span>'+
-        '<h4>'+highlight(e.title[lang])+'</h4></div>'+
+        '<h4>'+highlight(e.title[lang])+'</h4>'+
+        (e.link ? '<a class="entry-link" href="'+esc(e.link)+'" rel="noopener">'+esc(e.link.replace("https://",""))+'</a>' : '')+'</div>'+
         '<ul>'+e.lines[lang].map(l=>"<li>"+highlight(l)+"</li>").join("")+'</ul>'+
         '<div class="tags">'+e.tech.map(t =>
           '<button type="button" class="tag'+(hasTech(t)?" on":"")+'" data-tech="'+esc(t)+'">'+esc(t)+'</button>').join("")+'</div>'+
